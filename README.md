@@ -1,90 +1,70 @@
-# My FastAPI Project
 
-This is a FastAPI backend project. It provides REST endpoints and can be run locally using Python and Uvicorn.
+# FastAPI Screening API
 
----
-
-## Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Setup](#setup)
-- [Run the API](#run-the-api)
-- [Test the API](#test-the-api)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
+Backend API that performs web scraping and screening of entities against high-risk lists (OFAC, Offshore Leaks, World Bank debarred firms). Returns structured results (hits count + result array) suitable for automatic processing or UI display.
 
 ---
 
 ## Prerequisites
 
-Before you start, make sure you have installed:
-
-- Python 3.11+ ([Download Python](https://www.python.org/downloads/))
-- Optional: Virtual environment tool (`venv`)  
-- Optional: Tools like [Postman](https://www.postman.com/) or [curl](https://curl.se/)
+- Python 3.11+
+- venv (virtual environments)
+- Optional: Postman
 
 ---
 
 ## Setup
 
-1. **Clone the repository**
+1. Clone the repository:
 
-```bash
-git clone https://github.com/username/fastapi-project.git
-cd fastapi-project
-Create and activate a virtual environment
+    git clone https://github.com/username/fastapi-screening.git
+    cd fastapi-screening
 
-bash
-Copy code
-# Windows
-python -m venv venv
-venv\Scripts\activate
+2. Create and activate a virtual environment:
 
-# Linux/Mac
-python3 -m venv venv
-source venv/bin/activate
-Install dependencies
+    # Windows
+    python -m venv venv
+    venv\Scripts\activate
 
-bash
-Copy code
-pip install -r requirements.txt
-Run the API
-bash
-Copy code
-uvicorn main:app --reload
-The API will run on:
+    # Linux / macOS
+    python3 -m venv venv
+    source venv/bin/activate
 
-http://127.0.0.1:8000
+3. Install dependencies:
 
-Swagger UI is available at:
+    pip install -r requirements.txt
 
-http://127.0.0.1:8000/docs
+---
 
-Redoc documentation is available at:
+## Run the API (development)
 
-http://127.0.0.1:8000/redoc
+    uvicorn main:app --reload
 
-Test the API
-You can test your endpoints using curl, Postman, or your browser:
+- Default host/port: http://127.0.0.1:8000
+- Swagger UI: http://127.0.0.1:8000/docs
+- Redoc: http://127.0.0.1:8000/redoc
 
-bash
-Copy code
-curl http://127.0.0.1:8000/your-endpoint
-Or visit Swagger UI: http://127.0.0.1:8000/docs
+---
 
-Project Structure
-Typical FastAPI layout:
+## Endpoints / Behavior (summary)
 
-bash
-Copy code
-/fastapi-project
-├── app/                 # Application code
-│   ├── main.py          # FastAPI entry point
-│   ├── routes/          # API routes
-│   ├── models/          # Pydantic models
-│   └── services/        # Business logic / utilities
-├── venv/                # Virtual environment (ignored by Git)
-├── requirements.txt     # Dependencies
-├── .gitignore
-└── README.md
+- `POST /search` – Request body includes `name` and `sources` (array of sources to query).
+  - Response:
+    - `hits`: integer
+    - `results`: array of objects
+- Authentication required
+- Rate limiting: 20 calls/min
+
+---
+
+## Project Structure
+
+/fastapi-screening
+    app/
+        main.py
+        routes/
+        models/
+        services/
+    requirements.txt
+    .gitignore
+    README.md
